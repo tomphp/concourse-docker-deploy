@@ -13,7 +13,7 @@ echo $input
 
 machineName=$(echo $input | jq -r '.source.machineName')
 
-machineConfigDir="~/.docker/machine/machines/$machineName"
+machineConfigDir="$HOME/.docker/machine/machines/$machineName"
 mkdir -p $machineConfigDir
 
 echo $input | jq -r '.source.ca_pem' >$machineConfigDir/ca.pem
@@ -25,7 +25,15 @@ echo $input | jq -r '.source.key_pem' >$machineConfigDir/key.pem
 echo $input | jq -r '.source.server_key_pem' >$machineConfigDir/server_key.pem
 echo $input | jq -r '.source.server_pem' >$machineConfigDir/server.pem
 
+cd $machineConfigDir
+pwd
+ls
+
 docker-machine ls
+
+eval `docker-machine env $machineName`
+
+docker ps
 
 jq -n "{
   version: {
