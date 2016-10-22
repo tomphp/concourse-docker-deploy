@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 # vim: set ft=sh
 
 set -e -u
