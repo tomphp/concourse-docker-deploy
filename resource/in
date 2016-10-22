@@ -13,7 +13,7 @@ echo $input
 
 machineName=$(echo $input | jq -r '.source.machineName')
 
-machineConfigDir = "~/.docker/machine/machines/$machineName"
+machineConfigDir="~/.docker/machine/machines/$machineName"
 mkdir -p $machineConfigDir
 
 echo $input | jq -r '.source.ca_pem' >$machineConfigDir/ca.pem
