@@ -13,7 +13,7 @@ echo $input
 
 machineName=$(echo $input | jq -r '.source.machine_name')
 
-certsDir="$HOME/.docker/machine/machines/certs"
+certsDir="$HOME/.docker/machine/certs"
 machineConfigDir="$HOME/.docker/machine/machines/$machineName"
 
 mkdir -p $certsDir
