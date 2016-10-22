@@ -10,6 +10,6 @@ input=`cat`
 
 jq -n "{
   version: {
-    ref: $BUILD_ID
+    ref: \"$BUILD_ID\"
   }
 }" >&3
