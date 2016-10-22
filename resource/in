@@ -11,11 +11,19 @@ input=`cat`
 echo "ARG1: $1"
 echo $input
 
-machineName=$(echo $input | jq -r '.source.machineName')
+machineName=$(echo $input | jq -r '.source.machine_name')
 
+certsDir="$HOME/.docker/machine/machines/certs"
 machineConfigDir="$HOME/.docker/machine/machines/$machineName"
-mkdir -p $machineConfigDir
 
+mkdir -p $certsDir
+echo $input | jq -r '.source.ca_key_pem' >$certsDir/ca_key.pem
+echo $input | jq -r '.source.ca_pem' >$certsDir/ca.pem
+echo $input | jq -r '.source.ca_pem' >$certsDir/ca.pem
+echo $input | jq -r '.source.cert_pem' >$certsDir/cert.pem
+echo $input | jq -r '.source.key_pem' >$certsDir/key.pem
+
+mkdir -p $machineConfigDir
 echo $input | jq -r '.source.ca_pem' >$machineConfigDir/ca.pem
 echo $input | jq -r '.source.cert_pem' >$machineConfigDir/cert.pem
 echo $input | jq -r '.source.config' >$machineConfigDir/config.json
