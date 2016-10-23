@@ -12,6 +12,9 @@ exec 1>&2 # redirect all output to stderr for logging
 input=`cat`
 
 echo "ARG1: $1"
+ls $1
+
+exit 1
 
 machineName=$(echo $input | jq -r '.source.machine_name')
 
