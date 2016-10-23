@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -ev
 # vim: set ft=sh
 
 export SHELL=bash
@@ -12,8 +12,6 @@ machineName=$(echo $input | jq -r '.source.machine_name')
 
 certsDir="$HOME/.docker/machine/certs"
 machineConfigDir="$HOME/.docker/machine/machines/$machineName"
-
-set -e
 
 mkdir -p $certsDir
 echo $input | jq -r '.source.ca_key_pem' >$certsDir/ca-key.pem
@@ -34,8 +32,6 @@ echo $input | jq -r '.source.server_pem' >$machineConfigDir/server.pem
 
 composeRoot=$1/$(echo $input | jq -r '.source.compose_root')
 composeFile=$(echo $input | jq -r '.source.compose_file')
-
-set +e
 
 ls $1
 ls $composeRoot
