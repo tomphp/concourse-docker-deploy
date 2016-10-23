@@ -38,6 +38,8 @@ echo $input | jq -r '.source.server_pem' >$machineConfigDir/server.pem
 composeFile=$(echo $input | jq -r '.source.compose_file')
 
 pwd
+ls
+cat $1
 
 eval `docker-machine env $machineName`
 
