@@ -38,7 +38,7 @@ set -v +x
 ls $1
 ls $composeRoot
 
-eval `docker-machine env $machineName`
+eval `docker-machine env --shell bash $machineName`
 
 cd $composeRoot
 
