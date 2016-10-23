@@ -1,6 +1,9 @@
 #!/bin/bash -ex
 # vim: set ft=sh
 
+# The Alpine linux container uses Busybox by default and even though this
+# script is run with /bin/bash, SHELL is not set and the docker-machine command
+# gets upset without it.
 export SHELL=bash
 
 exec 3>&1 # make stdout available as fd 3 for the result
@@ -9,7 +12,6 @@ exec 1>&2 # redirect all output to stderr for logging
 input=`cat`
 
 echo "ARG1: $1"
-echo $input
 
 machineName=$(echo $input | jq -r '.source.machine_name')
 
@@ -33,15 +35,15 @@ echo $input | jq -r '.source.key_pem' >$machineConfigDir/key.pem
 echo $input | jq -r '.source.server_key_pem' >$machineConfigDir/server-key.pem
 echo $input | jq -r '.source.server_pem' >$machineConfigDir/server.pem
 
-cd $machineConfigDir
-pwd
-ls
+composeFile=$(echo $input | jq -r '.source.compose_file')
 
-docker-machine ls
+pwd
 
 eval `docker-machine env $machineName`
 
-docker ps
+docker-compose -f $composeFile down
+docker-compose -f $composeFile build
+docker-compose -f $composeFile up -d
 
 jq -n "{
   version: {
