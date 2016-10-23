@@ -6,6 +6,7 @@ export SHELL=bash
 exec 3>&1 # make stdout available as fd 3 for the result
 exec 1>&2 # redirect all output to stderr for logging
 
+set -x +v
 input=`cat`
 
 machineName=$(echo $input | jq -r '.source.machine_name')
@@ -13,7 +14,6 @@ machineName=$(echo $input | jq -r '.source.machine_name')
 certsDir="$HOME/.docker/machine/certs"
 machineConfigDir="$HOME/.docker/machine/machines/$machineName"
 
-set -x +v
 
 mkdir -p $certsDir
 echo $input | jq -r '.source.ca_key_pem' >$certsDir/ca-key.pem
@@ -44,6 +44,7 @@ eval `docker-machine env $machineName`
 
 cd $composeRoot
 
+echo $composeFile
 ls
 
 docker-compose -f $composeFile down
