@@ -39,7 +39,7 @@ composeFile=$(echo $input | jq -r '.source.compose_file')
 
 pwd
 ls
-cat $1
+ls $1
 
 eval `docker-machine env $machineName`
 
