@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -x
 # vim: set ft=sh
 
 # The Alpine linux container uses Busybox by default and even though this
@@ -10,45 +10,6 @@ exec 3>&1 # make stdout available as fd 3 for the result
 exec 1>&2 # redirect all output to stderr for logging
 
 input=`cat`
-
-echo "ARG1: $1"
-ls $1
-
-exit 1
-
-machineName=$(echo $input | jq -r '.source.machine_name')
-
-certsDir="$HOME/.docker/machine/certs"
-machineConfigDir="$HOME/.docker/machine/machines/$machineName"
-
-mkdir -p $certsDir
-echo $input | jq -r '.source.ca_key_pem' >$certsDir/ca-key.pem
-echo $input | jq -r '.source.ca_pem' >$certsDir/ca.pem
-echo $input | jq -r '.source.ca_pem' >$certsDir/ca.pem
-echo $input | jq -r '.source.cert_pem' >$certsDir/cert.pem
-echo $input | jq -r '.source.key_pem' >$certsDir/key.pem
-
-mkdir -p $machineConfigDir
-echo $input | jq -r '.source.ca_pem' >$machineConfigDir/ca.pem
-echo $input | jq -r '.source.cert_pem' >$machineConfigDir/cert.pem
-echo $input | jq -r '.source.config' >$machineConfigDir/config.json
-echo $input | jq -r '.source.id_rsa' >$machineConfigDir/id_rsa
-echo $input | jq -r '.source.id_rsa_pub' >$machineConfigDir/id_rsa.pub
-echo $input | jq -r '.source.key_pem' >$machineConfigDir/key.pem
-echo $input | jq -r '.source.server_key_pem' >$machineConfigDir/server-key.pem
-echo $input | jq -r '.source.server_pem' >$machineConfigDir/server.pem
-
-composeFile=$(echo $input | jq -r '.source.compose_file')
-
-pwd
-ls
-ls $1
-
-eval `docker-machine env $machineName`
-
-docker-compose -f $composeFile down
-docker-compose -f $composeFile build
-docker-compose -f $composeFile up -d
 
 jq -n "{
   version: {
