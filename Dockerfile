@@ -12,7 +12,7 @@ RUN mkdir /install \
     && wget --no-check-certificate https://get.docker.com/builds/Linux/x86_64/docker-1.12.2.tgz \
     && tar xvzf docker-1.12.2.tgz \
     && cp docker/docker /usr/local/bin \
-    rm -rf /install
+    && rm -rf /install
 
 # Install docker machine
 RUN curl -L "https://github.com/docker/machine/releases/download/v0.8.2/docker-machine-$(uname -s)-$(uname -m)" >/usr/local/bin/docker-machine \
