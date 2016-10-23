@@ -1,10 +1,10 @@
-FROM alpine
+FROM ubuntu
 
-RUN apk update \
-    && apk add bash \
-    && apk add wget \
-    && apk add curl \
-    && apk add jq
+RUN apt-get update \
+    && apt-get install -y bash \
+    && apt-get install -y wget \
+    && apt-get install -y curl \
+    && apt-get install -y jq
 
 # Install docker client
 RUN mkdir /install \

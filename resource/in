@@ -1,11 +1,6 @@
 #!/bin/bash -ev
 # vim: set ft=sh
 
-# The Alpine linux container uses Busybox by default and even though this
-# script is run with /bin/bash, SHELL is not set and the docker-machine command
-# gets upset without it.
-export SHELL=bash
-
 exec 3>&1 # make stdout available as fd 3 for the result
 exec 1>&2 # redirect all output to stderr for logging
 
