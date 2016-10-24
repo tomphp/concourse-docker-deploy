@@ -12,6 +12,7 @@ echo $input | jq -r '.source' | json-to-docker-machine
 machineName=$(echo $input | jq -r '.source.machine_name')
 composeRoot=$1/$(echo $input | jq -r '.source.compose_root')
 composeFile=$(echo $input | jq -r '.source.compose_file')
+composeProjectName=$(echo $input | jq -r '.source.compose_project_name')
 
 set -v +x
 
@@ -19,9 +20,9 @@ eval `docker-machine env --shell bash $machineName`
 
 cd $composeRoot
 
-docker-compose -f $composeFile down
-docker-compose -f $composeFile build
-docker-compose -f $composeFile up -d
+docker-compose -f $composeFile -p $composeProjectName down
+docker-compose -f $composeFile -p $composeProjectName build
+docker-compose -f $composeFile -p $composeProjectName up -d
 
 jq -n "{
   version: {
