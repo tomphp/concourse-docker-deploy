@@ -21,7 +21,7 @@ set -v +x
 
 echo "Deploying $imageDigest"
 
-export DEPLOYMENT_IMAGE=$imageDigest
+export DEPLOYMENT_IMAGE="$imageDigest/docker_inspect.json"
 
 eval `docker-machine env --shell bash $machineName`
 
