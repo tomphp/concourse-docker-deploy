@@ -15,13 +15,13 @@ composeFile=$(echo $input | jq -r '.source.compose_file')
 composeProjectName=$(echo $input | jq -r '.source.compose_project_name')
 
 dockerImage=$1/$(echo $input | jq -r '.source.docker_image')
-imageDigest=$(jq -r '.[0].RepoDigests[0]' $dockerImage)
+imageDigest=$(jq -r '.[0].RepoDigests[0]' "$dockerImage/docker_inspect.json")
 
 set -v +x
 
 echo "Deploying $imageDigest"
 
-export DEPLOYMENT_IMAGE="$imageDigest/docker_inspect.json"
+export DEPLOYMENT_IMAGE="$imageDigest"
 
 eval `docker-machine env --shell bash $machineName`
 
